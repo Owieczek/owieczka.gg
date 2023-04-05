@@ -6,6 +6,9 @@ import { FavoriteRole } from "../components/FavoriteRole";
 import { ChampionStat } from "../components/ChampionStat";
 import { MatchHistory } from "../components/MatchHistory";
 import { SearchBar } from "../components/SearchBar";
+import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { fetchMatchesInfo, getPlayerPUUID } from "../services/api";
 
 
 const Cont = styled(Container)`
@@ -50,15 +53,29 @@ const Cont = styled(Container)`
 `;
 
 export const OverviewView = () => {
+  const { region, input } = useParams();
+
+  const [matches, setMatches] = useState([]);
+  const [puuid, setPuuid] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchMatchesInfo(region, input);
+      const puuid = await getPlayerPUUID(region, input);
+      setMatches(data);
+      setPuuid(puuid);
+    };
+    fetchData();
+  }, [region, input]);
 
   return (
     <Cont>
       <SearchBar  />
-      <ProfileInfo  />
+      <ProfileInfo />
       <CurrentRank />
-      <FavoriteRole />
+      <FavoriteRole matches={matches} puuid={puuid} />
       <ChampionStat />
-      <MatchHistory />
+      <MatchHistory matches={matches} puuid={puuid} region={region} />
     </Cont>
   );
 };

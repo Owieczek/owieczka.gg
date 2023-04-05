@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import challbot from "../assets/challbot.png";
 import { Text } from "./Text Styles/Text";
+import { roleImg, roleName } from "../utility/favoriteRoleUtility";
 
 const FavoriteRoleCont = styled.div`
   border-radius: 20px;
@@ -40,7 +40,7 @@ const BotContText = styled.div`
 `;
 
 const RoleImg = styled.img`
-  width: 50%;
+  width: 45%;
 `;
 
 const RankTitle = styled(Text)`
@@ -71,17 +71,73 @@ const RoleWinratio = styled(Text)`
   color: #000000c7;
 `;
 
-export const FavoriteRole = () => {
+export const FavoriteRole = ({ matches, puuid }) => {
+  console.log(matches);
+  console.log(puuid);
+
+  const roles = matches.map((match) => {
+    const mainPlayer = match.info.participants.find(
+      (participant) => participant.puuid === puuid
+    );
+    return mainPlayer.teamPosition;
+  });
+
+  console.log(roles);
+
+  const countedRoles = roles.reduce((allRoles, role) => {
+    const currCount = allRoles[role] ?? 0;
+    return {
+      ...allRoles,
+      [role]: currCount + 1,
+    };
+  }, {});
+
+  let maxCount = 0;
+  let mostFrequentRole = "";
+
+  for (const role in countedRoles) {
+    if (countedRoles[role] > maxCount) {
+      maxCount = countedRoles[role];
+      mostFrequentRole = role;
+    }
+  }
+
+  const wins = matches.reduce((totalWins, match) => {
+    const mainPlayer = match.info.participants.find(
+      (participant) => participant.puuid === puuid
+    );
+    if (mainPlayer.teamPosition === mostFrequentRole) {
+      if (mainPlayer.win) {
+        return totalWins + 1;
+      }
+    }
+    return totalWins;
+  }, 0);
+
+  const losses = matches.reduce((totalLosses, match) => {
+    const mainPlayer = match.info.participants.find(
+      (participant) => participant.puuid === puuid
+    );
+    if (mainPlayer.teamPosition === mostFrequentRole) {
+      if (!mainPlayer.win) {
+        return totalLosses + 1;
+      }
+    }
+    return totalLosses;
+  }, 0);
+
+  const winRatio = ((wins / (wins + losses)) * 100).toFixed(0);
+
   return (
     <FavoriteRoleCont>
       <TopCont>
         <RankTitle>Favourite role</RankTitle>
       </TopCont>
       <BotCont>
-        <RoleImg src={challbot} alt="" />
+        <RoleImg src={roleImg(mostFrequentRole)} alt="" />
         <BotContText>
-          <RoleName>AD Carry</RoleName>
-          <RoleWinratio>Win Ratio 100%</RoleWinratio>
+          <RoleName>{roleName(mostFrequentRole)}</RoleName>
+          <RoleWinratio>Win Ratio {winRatio}%</RoleWinratio>
         </BotContText>
       </BotCont>
     </FavoriteRoleCont>

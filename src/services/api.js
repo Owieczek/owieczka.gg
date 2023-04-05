@@ -1,8 +1,8 @@
 const { RateLimiterMemory } = require("rate-limiter-flexible");
 
-const API_KEY = "RGAPI-f11a2803-9840-4f45-a615-1ea9e0acf390";
+const API_KEY = "RGAPI-717bcbc8-e6f2-4b77-8b2a-0ff97e0dfc0e";
 const limiter = new RateLimiterMemory({
-  points: 30,
+  points: 50,
   duration: 1,
 });
 

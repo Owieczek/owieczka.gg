@@ -105,7 +105,17 @@ export const MatchHistoryItem = (props) => {
   const mainPlayerCS =
     mainPlayer.totalMinionsKilled + mainPlayer.neutralMinionsKilled;
 
-  const winStatus = mainPlayer.win ? "Victory" : "Defeat";
+  let winStatus;
+
+  if (mainPlayer.win) {
+    if (match.info.gameDuration < 300) {
+      winStatus = "Remake";
+    } else {
+      winStatus = "Victory";
+    }
+  } else {
+    winStatus = "Defeat";
+  }
 
   const mainPlayerQueueName = () => {
     const mainPlayerQueueId = match.info.queueId;
@@ -120,16 +130,23 @@ export const MatchHistoryItem = (props) => {
     } else if (mainPlayerQueueId === 900) {
       return "ARURF";
     } else if (mainPlayerQueueId === 440) {
-      return "Flex 5:5 Rank";
+      return "Ranked Flex";
     } else if (mainPlayerQueueId === 1900) {
       return "URF";
+    } else {
+      return "Normal";
     }
   };
 
   return (
     <MatchHistoryCont
       style={{
-        backgroundColor: mainPlayer.win ? "#7dcaf130" : "#df26264c",
+        backgroundColor:
+          winStatus === "Remake"
+            ? "#9c9c9c4c"
+            : mainPlayer.win
+            ? "#00c85336"
+            : "#df26264c",
       }}
       key={match.metadata.matchId}
     >
