@@ -9,7 +9,7 @@ export const HomeView = () => {
         The successor to OPGG
       </PageTitle>
       <PageSubtitle variant="medium" colorVariant="black">
-        League tracker provides insight to League of Legends players about thier
+        League tracker provides insight to League of Legends players about their
         game performance, match history,
         <br /> and ranked ladder via Riot API.
       </PageSubtitle>
