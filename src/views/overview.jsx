@@ -76,7 +76,6 @@ export const OverviewView = () => {
         setPuuid(puuid);
         setPlayerData(playerData);
         setRankData(playerRankData);
-        console.log(data);
       } catch (error) {
         setError(true);
       }

@@ -79,6 +79,7 @@ export const FavoriteRole = ({ matches, puuid }) => {
     return mainPlayer.teamPosition;
   });
 
+
   const countedRoles = roles.reduce((allRoles, role) => {
     const currCount = allRoles[role] ?? 0;
     return {
@@ -90,12 +91,15 @@ export const FavoriteRole = ({ matches, puuid }) => {
   let maxCount = 0;
   let mostFrequentRole = "";
 
-  for (const role in countedRoles) {
-    if (countedRoles[role] > maxCount) {
+  const roleOrder = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
+
+  for (const role of roleOrder) {
+    if (countedRoles[role] && countedRoles[role] >= maxCount) {
       maxCount = countedRoles[role];
       mostFrequentRole = role;
     }
   }
+
 
   const wins = matches.reduce((totalWins, match) => {
     const mainPlayer = match.info.participants.find(

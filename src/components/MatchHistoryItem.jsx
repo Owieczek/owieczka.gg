@@ -95,7 +95,7 @@ const StyleLink = styled(Link)`
 `;
 
 const MVP = styled(Text)`
-  background-color: yellow;
+  background-color: #f5f53de2;
   border-radius: 10px;
   display: grid;
   place-items: center;

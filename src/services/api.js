@@ -1,6 +1,5 @@
-// const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY;
 
-const API_KEY = "RGAPI-c701d5e6-5d4d-493b-9280-855700f36743";
 const NodeCache = require("node-cache");
 const cache = new NodeCache();
 
