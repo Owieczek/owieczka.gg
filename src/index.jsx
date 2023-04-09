@@ -6,7 +6,7 @@ import { App } from "./App";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./config/theme";
 import "@fontsource/inter/800.css";
-import { GlobalStyle } from "./components/GlobalStyle";
+import { GlobalStyle } from "./components/Styles/GlobalStyle";
 
 const root = createRoot(document.getElementById("root"));
 

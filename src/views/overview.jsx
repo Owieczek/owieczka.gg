@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container } from "../components/Container";
+import { Container } from "../components/Styles/Container";
 import { ProfileInfo } from "../components/ProfileInfo";
 import { CurrentRank } from "../components/CurrentRank";
 import { FavoriteRole } from "../components/FavoriteRole";
@@ -8,8 +8,12 @@ import { MatchHistory } from "../components/MatchHistory";
 import { SearchBar } from "../components/SearchBar";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { fetchMatchesInfo, getPlayerPUUID } from "../services/api";
-
+import {
+  fetchMatchesInfo,
+  fetchPlayerData,
+  getPlayerPUUID,
+  playerRank,
+} from "../services/api";
 
 const Cont = styled(Container)`
   display: grid;
@@ -54,28 +58,46 @@ const Cont = styled(Container)`
 
 export const OverviewView = () => {
   const { region, input } = useParams();
-
+  const [playerData, setPlayerData] = useState(null);
   const [matches, setMatches] = useState([]);
   const [puuid, setPuuid] = useState("");
+  const [rankData, setRankData] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchMatchesInfo(region, input);
-      const puuid = await getPlayerPUUID(region, input);
-      setMatches(data);
-      setPuuid(puuid);
+      try {
+        const data = await fetchMatchesInfo(region, input);
+        const puuid = await getPlayerPUUID(region, input);
+        const playerData = await fetchPlayerData(region, input);
+        const playerRankData = await playerRank(region, input);
+        setError(false);
+        setMatches(data);
+        setPuuid(puuid);
+        setPlayerData(playerData);
+        setRankData(playerRankData);
+        console.log(data);
+      } catch (error) {
+        setError(true);
+      }
     };
     fetchData();
   }, [region, input]);
 
   return (
     <Cont>
-      <SearchBar  />
-      <ProfileInfo />
-      <CurrentRank />
-      <FavoriteRole matches={matches} puuid={puuid} />
-      <ChampionStat />
-      <MatchHistory matches={matches} puuid={puuid} region={region} />
+      {error ? (
+        <SearchBar error={true} />
+      ) : (
+        <>
+          <SearchBar error={false} />
+          <ProfileInfo playerData={playerData} />
+          <CurrentRank rankData={rankData} />
+          <FavoriteRole matches={matches} puuid={puuid} />
+          <ChampionStat matches={matches} puuid={puuid} />
+          <MatchHistory matches={matches} puuid={puuid} region={region} />
+        </>
+      )}
     </Cont>
   );
 };

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Text } from "./Text Styles/Text";
+import { Text } from "./Styles/Text";
 import { roleImg, roleName } from "../utility/favoriteRoleUtility";
 
 const FavoriteRoleCont = styled.div`
@@ -72,17 +72,12 @@ const RoleWinratio = styled(Text)`
 `;
 
 export const FavoriteRole = ({ matches, puuid }) => {
-  console.log(matches);
-  console.log(puuid);
-
   const roles = matches.map((match) => {
     const mainPlayer = match.info.participants.find(
       (participant) => participant.puuid === puuid
     );
     return mainPlayer.teamPosition;
   });
-
-  console.log(roles);
 
   const countedRoles = roles.reduce((allRoles, role) => {
     const currCount = allRoles[role] ?? 0;

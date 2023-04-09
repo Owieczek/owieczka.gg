@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useState } from "react";
 import styled from "styled-components";
 import unranked from "../assets/unranked1.png";
-import { playerRank } from "../services/api";
-import { Text } from "./Text Styles/Text";
+import { Text } from "./Styles/Text";
 import { rankIMG, winRatio } from "../utility/CurrentRankUtility";
 
 const CurrentRankCont = styled.div`
@@ -102,18 +100,8 @@ const RankKD = styled(Text)`
   display: inline-block;
 `;
 
-export const CurrentRank = () => {
-  const [rankData, setRankData] = useState(null);
-  const { region, input } = useParams();
+export const CurrentRank = ({ rankData }) => {
   const [selectedOption, setSelectedOption] = useState("Ranked Solo");
-
-  useEffect(() => {
-    const fetchRankData = async () => {
-      const data = await playerRank(region, input);
-      setRankData(data);
-    };
-    fetchRankData();
-  }, [region, input]);
 
   const rankedSoloData =
     rankData && rankData.find((data) => data.queueType === "RANKED_SOLO_5x5");
@@ -142,13 +130,11 @@ export const CurrentRank = () => {
           <BotCont>
             <RankImg src={rankIMG(selectedData)} alt="" />
             <BotContText>
-              <RankName>
-                {`${selectedData?.tier} ${selectedData?.rank}`}
-              </RankName>
+              <RankName>{`${selectedData.tier} ${selectedData.rank}`}</RankName>
               <RankKD>
-                {`${selectedData?.wins}W ${selectedData?.losses}L (${winRatio(
+                {`${selectedData.wins}W ${selectedData.losses}L (${winRatio(
                   selectedData
-                )}%) ${selectedData?.leaguePoints} LP`}
+                )}%) ${selectedData.leaguePoints} LP`}
               </RankKD>
             </BotContText>
           </BotCont>

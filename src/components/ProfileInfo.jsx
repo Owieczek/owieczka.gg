@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import styled from "styled-components";
-import { fetchMatchesInfo, fetchPlayerData } from "../services/api";
-import { Text } from "./Text Styles/Text";
+import { Text } from "./Styles/Text";
 
 const ProfileCont = styled.div`
   border-radius: 20px;
@@ -36,19 +33,7 @@ const ProfileRanking = styled(Text)`
   color: #0000009a;
 `;
 
-export const ProfileInfo = () => {
-  const [playerData, setPlayerData] = useState(null);
-  const { region, input } = useParams();
-
-  useEffect(() => {
-    const searchPlayer = async () => {
-      const data = await fetchPlayerData(region, input);
-      setPlayerData(data);
-    };
-
-    searchPlayer();
-  }, [region, input]);
-
+export const ProfileInfo = ({ playerData }) => {
   return (
     <ProfileCont>
       {playerData && (

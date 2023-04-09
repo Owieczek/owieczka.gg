@@ -1,32 +1,33 @@
 import styled from "styled-components";
-import Caitlyn from "../assets/Caitlyn.webp";
+import { Text } from "./Styles/Text";
 import { useState } from "react";
-import { Text } from "./Text Styles/Text";
 
 const ChampionStatsCont = styled.div`
   display: grid;
   border-radius: 20px;
   border: solid 1px #00000019;
-  max-width: 350px;
+  max-width: 330px;
   grid-area: fourth;
+  position: sticky;
+  top: 50px;
+
+  @media screen and (max-width: 1070px) {
+    position: relative;
+    top: 0;
+  }
 `;
 
 const ChampionInfo = styled.div`
   display: grid;
-  grid-template-columns: minmax(auto, 40px) 70px 90px 70px;
+  grid-template-columns: minmax(auto, 40px) 75px 90px 60px;
   grid-gap: 10px;
   margin-top: 20px;
   justify-items: center;
   padding-left: 20px;
-
-  /* @media only screen and (max-width: 390px) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    text-align: center;
-  } */
 `;
 const ColCont = styled.div`
   display: grid;
+  justify-self: start;
 `;
 
 const StatsImg = styled.img`
@@ -66,42 +67,126 @@ const StatsTitle = styled(Text)`
   color: #000000ca;
 `;
 
-export const ChampionStat = () => {
-  const [numEl, setNumEl] = useState(4);
-  const [isShowingMore, setIsShowingMore] = useState(false);
+export const ChampionStat = ({ matches, puuid }) => {
+  const [more, setMore] = useState(false);
+  const mainPlayer = matches.map((match) =>
+    match.info.participants.find((participant) => participant.puuid === puuid)
+  );
 
-  const handleBtnClick = () => {
-    setNumEl((prevNumEl) => (prevNumEl === 4 ? 8 : 4));
-    setIsShowingMore((prevIsShowingMore) => !prevIsShowingMore);
+  const championNameChange = {
+    MonkeyKing: "Wukong",
+    FiddleSticks: "Fiddlesticks",
   };
 
-  const btnText = isShowingMore ? "Show Less" : "Show More";
+  const championStats = mainPlayer.reduce((stats, player) => {
+    const wins = player.win;
+    const championImg = player.championId;
+    let championName =
+      championNameChange[player.championName] || player.championName;
+    if (championName.length > 8) {
+      championName = championName.slice(0, 8) + "...";
+    }
+    const kills = player.kills;
+    const deaths = player.deaths;
+    const assists = player.assists;
+    const minionsScore =
+      player.totalMinionsKilled + player.neutralMinionsKilled;
+    const gamesPlayed = stats[championName]
+      ? stats[championName].gamesPlayed + 1
+      : 1;
+    const totalKills = stats[championName]
+      ? stats[championName].totalKills + kills
+      : kills;
+    const totalDeaths = stats[championName]
+      ? stats[championName].totalDeaths + deaths
+      : deaths;
+    const totalAssists = stats[championName]
+      ? stats[championName].totalAssists + assists
+      : assists;
+    const totalMinionsScore = stats[championName]
+      ? stats[championName].totalMinionsScore + minionsScore
+      : minionsScore;
+
+    const totalWins = stats[championName]
+      ? stats[championName].totalWins + wins
+      : wins;
+
+    return {
+      ...stats,
+      [championName]: {
+        gamesPlayed,
+        totalKills,
+        totalDeaths,
+        totalAssists,
+        totalMinionsScore,
+        championImg,
+        totalWins,
+      },
+    };
+  }, {});
+
+  const championNames = Object.keys(championStats);
 
   return (
     <ChampionStatsCont>
       <StatsTitle>Champion stats</StatsTitle>
-      {[...Array(numEl)].map((_, index) => (
-        <ChampionInfo key={index}>
-          <StatsImg src={Caitlyn} alt="" />
+      {championNames
+        .slice(0, more ? championNames.length : 4)
+        .map((name, index) => {
+          const stats = championStats[name];
+          const averageKills = (stats.totalKills / stats.gamesPlayed).toFixed(
+            1
+          );
+          const averageDeaths = (stats.totalDeaths / stats.gamesPlayed).toFixed(
+            1
+          );
+          const averageAssists = (
+            stats.totalAssists / stats.gamesPlayed
+          ).toFixed(1);
 
-          <ColCont>
-            <TopInfo>Caitlyn</TopInfo>
-            <BottomInfo>CS 183 (6.1)</BottomInfo>
-          </ColCont>
+          const winsPer = ((stats.totalWins / stats.gamesPlayed) * 100).toFixed(
+            0
+          );
 
-          <ColCont>
-            <TopInfo>11.5:1 KDA</TopInfo>
-            <BottomInfo>10.0 / 2.0 / 13.0</BottomInfo>
-          </ColCont>
+          const averageMinionsKilled = (
+            stats.totalMinionsScore / stats.gamesPlayed
+          ).toFixed(1);
 
-          <ColCont>
-            <TopInfo>100%</TopInfo>
-            <BottomInfo>1 played</BottomInfo>
-          </ColCont>
-        </ChampionInfo>
-      ))}
+          const kdaRatio =
+            stats.totalDeaths === 0
+              ? "Perfect"
+              : (
+                  (stats.totalKills + stats.totalAssists) /
+                  stats.totalDeaths
+                ).toFixed(1) + ":1 KDA";
+
+          return (
+            <ChampionInfo key={index}>
+              <StatsImg
+                src={`https://cdn.communitydragon.org/latest/champion/${stats.championImg}/square`}
+                alt=""
+              />
+              <ColCont>
+                <TopInfo>{name}</TopInfo>
+                <BottomInfo>CS {averageMinionsKilled}</BottomInfo>
+              </ColCont>
+              <ColCont>
+                <TopInfo>{kdaRatio}</TopInfo>
+                <BottomInfo>
+                  {averageKills} / {averageDeaths} / {averageAssists}
+                </BottomInfo>
+              </ColCont>
+              <ColCont>
+                <TopInfo>{winsPer}%</TopInfo>
+                <BottomInfo>{stats.gamesPlayed} played</BottomInfo>
+              </ColCont>
+            </ChampionInfo>
+          );
+        })}
       <Text>
-        <ShowMoreBtn onClick={handleBtnClick}>{btnText}</ShowMoreBtn>
+        <ShowMoreBtn onClick={() => setMore(!more)}>
+          {more ? "Show Less" : "Show More"}
+        </ShowMoreBtn>
       </Text>
     </ChampionStatsCont>
   );

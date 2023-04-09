@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Text } from "./Text Styles/Text";
+import { Text } from "./Styles/Text";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -64,7 +64,7 @@ const SecondHistCont = styled.div`
 
 const TopText = styled(Text)`
   font-weight: 600;
-  font-size: 18px;
+  font-size: 17px;
   color: #000000ca;
 `;
 
@@ -94,6 +94,16 @@ const StyleLink = styled(Link)`
   text-decoration: none;
 `;
 
+const MVP = styled(Text)`
+  background-color: yellow;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: black;
+`;
 export const MatchHistoryItem = (props) => {
   const { match, puuid, region } = props;
   const mainPlayer = match.info.participants.find(
@@ -138,6 +148,21 @@ export const MatchHistoryItem = (props) => {
     }
   };
 
+  const mainPlayerTeamId = mainPlayer.teamId;
+  const mainPlayerTeam = match.info.participants.filter(
+    (participant) => participant.teamId === mainPlayerTeamId
+  );
+
+  const mainPlayerKda =
+    (mainPlayer.kills + mainPlayer.assists) / mainPlayer.deaths;
+
+  const teamKda = mainPlayerTeam.map((participant) => {
+    const kda = (participant.kills + participant.assists) / participant.deaths;
+    return kda;
+  });
+
+  const maxTeamKda = Math.max(...teamKda);
+
   return (
     <MatchHistoryCont
       style={{
@@ -162,6 +187,7 @@ export const MatchHistoryItem = (props) => {
       <MainStatCont>
         <TopText>{`${mainPlayer.kills} / ${mainPlayer.deaths} / ${mainPlayer.assists}`}</TopText>
         <BotText>{mainPlayerCS} CS</BotText>
+        {mainPlayerKda === maxTeamKda && <MVP>MVP</MVP>}
       </MainStatCont>
       <FirstHistCont>
         {match.info.participants.slice(0, 5).map((player) => (
