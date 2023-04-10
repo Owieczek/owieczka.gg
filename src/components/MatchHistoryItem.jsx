@@ -18,7 +18,7 @@ const MatchHistoryCont = styled.div`
   place-items: center;
   margin-bottom: 10px;
 
-  @media screen and (max-width: 510px) {
+  @media screen and (max-width: 610px) {
     max-height: 300px;
     grid-template-columns: auto auto;
     grid-template-rows: auto;
@@ -33,14 +33,14 @@ const MainCont = styled.div`
   margin-left: 40px;
   justify-self: start;
 
-  @media screen and (max-width: 510px) {
+  @media screen and (max-width: 610px) {
     grid-area: matchA;
     margin-top: 20px;
   }
 `;
 const MainStatCont = styled.div`
   display: grid;
-  @media screen and (max-width: 510px) {
+  @media screen and (max-width: 610px) {
     grid-area: matchB;
   }
 `;
@@ -48,7 +48,7 @@ const FirstHistCont = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   margin: 20px 0 20px 0;
-  @media screen and (max-width: 510px) {
+  @media screen and (max-width: 610px) {
     grid-area: matchC;
   }
 `;
@@ -56,7 +56,7 @@ const SecondHistCont = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   margin: 20px 0 20px 0;
-  @media screen and (max-width: 510px) {
+  @media screen and (max-width: 610px) {
     grid-area: matchD;
     padding-right: 30px;
   }
@@ -81,7 +81,7 @@ const MainImg = styled.img`
   margin-left: 30px;
   margin-right: 10px;
 
-  @media screen and (max-width: 510px) {
+  @media screen and (max-width: 610px) {
     display: none;
   }
 `;
