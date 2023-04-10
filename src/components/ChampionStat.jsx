@@ -19,7 +19,7 @@ const ChampionStatsCont = styled.div`
 
 const ChampionInfo = styled.div`
   display: grid;
-  grid-template-columns: minmax(auto, 40px) 75px 90px 60px;
+  grid-template-columns: minmax(auto, 40px) 70px 95px 60px;
   grid-gap: 10px;
   margin-top: 20px;
   justify-items: center;

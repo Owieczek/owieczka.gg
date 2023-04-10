@@ -5,6 +5,7 @@ import { CurrentRank } from "../components/CurrentRank";
 import { FavoriteRole } from "../components/FavoriteRole";
 import { ChampionStat } from "../components/ChampionStat";
 import { MatchHistory } from "../components/MatchHistory";
+import { AppBar } from "../components/Styles/AppBar";
 import { SearchBar } from "../components/SearchBar";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";

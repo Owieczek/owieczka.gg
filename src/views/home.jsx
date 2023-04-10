@@ -6,7 +6,7 @@ export const HomeView = () => {
   return (
     <Section>
       <PageTitle variant="large" colorVariant="black">
-        The successor to OPGG
+        Owca Tracker tf tf
       </PageTitle>
       <PageSubtitle variant="medium" colorVariant="black">
         League tracker provides insight to League of Legends players about their
