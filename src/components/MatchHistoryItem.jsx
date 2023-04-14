@@ -64,7 +64,7 @@ const SecondHistCont = styled.div`
 
 const TopText = styled(Text)`
   font-weight: 600;
-  font-size: 17px;
+  font-size: 16px;
   color: #000000ca;
 `;
 
