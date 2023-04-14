@@ -71,56 +71,48 @@ const RoleWinratio = styled(Text)`
   color: #000000c7;
 `;
 
-export const FavoriteRole = ({ matches, puuid }) => {
-  const roles = matches.map((match) => {
-    const mainPlayer = match.info.participants.find(
-      (participant) => participant.puuid === puuid
+export const FavoriteRole = ({ playerData, matchesData }) => {
+  const getMainPlayer = (matchData, playerData) => {
+    return matchData.info.participants.find(
+      (participant) => participant.puuid === playerData.puuid
     );
+  };
+
+  const roles = matchesData.map((matchData) => {
+    const mainPlayer = getMainPlayer(matchData, playerData);
     return mainPlayer.teamPosition;
   });
 
-
-  const countedRoles = roles.reduce((allRoles, role) => {
-    const currCount = allRoles[role] ?? 0;
-    return {
-      ...allRoles,
-      [role]: currCount + 1,
-    };
-  }, {});
-
+  const countedRoles = {};
   let maxCount = 0;
   let mostFrequentRole = "";
+
+  for (const role of roles) {
+    countedRoles[role] = (countedRoles[role] || 0) + 1;
+  }
 
   const roleOrder = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
 
   for (const role of roleOrder) {
-    if (countedRoles[role] && countedRoles[role] >= maxCount) {
-      maxCount = countedRoles[role];
+    const roleCount = countedRoles[role] || 0;
+    if (roleCount >= maxCount) {
+      maxCount = roleCount;
       mostFrequentRole = role;
     }
   }
 
-
-  const wins = matches.reduce((totalWins, match) => {
-    const mainPlayer = match.info.participants.find(
-      (participant) => participant.puuid === puuid
-    );
-    if (mainPlayer.teamPosition === mostFrequentRole) {
-      if (mainPlayer.win) {
-        return totalWins + 1;
-      }
+  const wins = matchesData.reduce((totalWins, matchData) => {
+    const mainPlayer = getMainPlayer(matchData, playerData);
+    if (mainPlayer.teamPosition === mostFrequentRole && mainPlayer.win) {
+      return totalWins + 1;
     }
     return totalWins;
   }, 0);
 
-  const losses = matches.reduce((totalLosses, match) => {
-    const mainPlayer = match.info.participants.find(
-      (participant) => participant.puuid === puuid
-    );
-    if (mainPlayer.teamPosition === mostFrequentRole) {
-      if (!mainPlayer.win) {
-        return totalLosses + 1;
-      }
+  const losses = matchesData.reduce((totalLosses, matchData) => {
+    const mainPlayer = getMainPlayer(matchData, playerData);
+    if (mainPlayer.teamPosition === mostFrequentRole && !mainPlayer.win) {
+      return totalLosses +1;
     }
     return totalLosses;
   }, 0);
@@ -135,7 +127,7 @@ export const FavoriteRole = ({ matches, puuid }) => {
       <BotCont>
         <RoleImg src={roleImg(mostFrequentRole)} alt="" />
         <BotContText>
-          <RoleName>{roleName(mostFrequentRole)}</RoleName>
+          <RoleName> {roleName(mostFrequentRole)}</RoleName>
           <RoleWinratio>Win Ratio {winRatio}%</RoleWinratio>
         </BotContText>
       </BotCont>

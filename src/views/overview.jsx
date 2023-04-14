@@ -5,16 +5,10 @@ import { CurrentRank } from "../components/CurrentRank";
 import { FavoriteRole } from "../components/FavoriteRole";
 import { ChampionStat } from "../components/ChampionStat";
 import { MatchHistory } from "../components/MatchHistory";
-import { AppBar } from "../components/Styles/AppBar";
 import { SearchBar } from "../components/SearchBar";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import {
-  fetchMatchesInfo,
-  fetchPlayerData,
-  getPlayerPUUID,
-  playerRank,
-} from "../services/api";
+import { getMatchesData, getPlayerData } from "../services/api";
 
 const Cont = styled(Container)`
   display: grid;
@@ -59,24 +53,23 @@ const Cont = styled(Container)`
 
 export const OverviewView = () => {
   const { region, input } = useParams();
-  const [playerData, setPlayerData] = useState(null);
-  const [matches, setMatches] = useState([]);
-  const [puuid, setPuuid] = useState("");
-  const [rankData, setRankData] = useState(null);
+  const [playerData, setPlayerData] = useState();
+  const [matchesData, setMatchesData] = useState([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchMatchesInfo(region, input);
-        const puuid = await getPlayerPUUID(region, input);
-        const playerData = await fetchPlayerData(region, input);
-        const playerRankData = await playerRank(region, input);
+        const playerData = await getPlayerData(region, input);
+        const matchesData = await getMatchesData(
+          playerData.matches.slice(0, 20)
+        );
+
         setError(false);
-        setMatches(data);
-        setPuuid(puuid);
         setPlayerData(playerData);
-        setRankData(playerRankData);
+        setMatchesData(matchesData);
+        console.log(playerData);
+        console.log(matchesData);
       } catch (error) {
         setError(true);
       }
@@ -92,10 +85,14 @@ export const OverviewView = () => {
         <>
           <SearchBar error={false} />
           <ProfileInfo playerData={playerData} />
-          <CurrentRank rankData={rankData} />
-          <FavoriteRole matches={matches} puuid={puuid} />
-          <ChampionStat matches={matches} puuid={puuid} />
-          <MatchHistory matches={matches} puuid={puuid} region={region} />
+          <CurrentRank playerData={playerData} />
+          <FavoriteRole playerData={playerData} matchesData={matchesData} />
+          <ChampionStat playerData={playerData} matchesData={matchesData} />
+          <MatchHistory
+            playerData={playerData}
+            matchesData={matchesData}
+            region={region}
+          />
         </>
       )}
     </Cont>

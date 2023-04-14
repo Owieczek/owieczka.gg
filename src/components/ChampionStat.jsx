@@ -67,10 +67,13 @@ const StatsTitle = styled(Text)`
   color: #000000ca;
 `;
 
-export const ChampionStat = ({ matches, puuid }) => {
+export const ChampionStat = ({ playerData, matchesData }) => {
   const [more, setMore] = useState(false);
-  const mainPlayer = matches.map((match) =>
-    match.info.participants.find((participant) => participant.puuid === puuid)
+
+  const mainPlayer = matchesData.map((matchData) =>
+    matchData.info.participants.find(
+      (participant) => participant.puuid === playerData.puuid
+    )
   );
 
   const championNameChange = {

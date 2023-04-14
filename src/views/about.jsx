@@ -58,6 +58,7 @@ export const AboutView = () => {
             href="https://github.com/Owieczek"
             target="_blank"
             style={{ textDecoration: "none" }}
+            rel="noreferrer"
           >
             Created by Owieczka
           </a>

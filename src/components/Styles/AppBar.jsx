@@ -77,6 +77,7 @@ export const AppBar = () => {
       <a
         href="https://github.com/Owieczek/owieczka.gg"
         target="_blank"
+        rel="noreferrer"
         style={{ alignItems: "center", display: "flex" }}
       >
         <GitLogo src={github} alt="githublogo" />

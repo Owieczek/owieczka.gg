@@ -2,15 +2,15 @@ import React from "react";
 
 import { MatchHistoryItem } from "./MatchHistoryItem";
 
-export const MatchHistory = ({ matches, puuid, region }) => {
+export const MatchHistory = ({ playerData, matchesData, region }) => {
   return (
     <div style={{ gridArea: "fifth" }}>
-      {matches.map((match) => (
+      {matchesData.map((matchData) => (
         <MatchHistoryItem
-          match={match}
-          puuid={puuid}
+          matchData={matchData}
+          playerData={playerData}
           region={region}
-          key={match.metadata.matchId}
+          key={matchData.metadata.matchId}
         />
       ))}
     </div>

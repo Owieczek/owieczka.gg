@@ -100,20 +100,23 @@ const RankKD = styled(Text)`
   display: inline-block;
 `;
 
-export const CurrentRank = ({ rankData }) => {
+export const CurrentRank = ({ playerData }) => {
   const [selectedOption, setSelectedOption] = useState("Ranked Solo");
 
   const rankedSoloData =
-    rankData && rankData.find((data) => data.queueType === "RANKED_SOLO_5x5");
+    playerData &&
+    playerData.rank.find((rank) => rank.queueType === "RANKED_SOLO_5x5");
   const rankedFlexData =
-    rankData && rankData.find((data) => data.queueType === "RANKED_FLEX_SR");
+    playerData &&
+    playerData.rank.find((rank) => rank.queueType === "RANKED_FLEX_SR");
 
   const selectedData =
     selectedOption === "Ranked Flex" ? rankedFlexData : rankedSoloData;
 
+ 
   return (
     <CurrentRankCont>
-      {rankData && selectedData ? (
+      {playerData && selectedData ? (
         <>
           <TopCont>
             <RankTitle>Current Rank</RankTitle>

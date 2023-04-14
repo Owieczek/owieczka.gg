@@ -105,11 +105,15 @@ const MVP = styled(Text)`
   color: black;
 `;
 export const MatchHistoryItem = (props) => {
-  const { match, puuid, region } = props;
-  const mainPlayer = match.info.participants.find(
-    (participant) => participant.puuid === puuid
-  );
+  const { matchData, playerData, region } = props;
 
+  const getMainPlayer = (matchData, playerData) => {
+    return matchData.info.participants.find(
+      (participant) => participant.puuid === playerData.puuid
+    );
+  };
+
+  const mainPlayer = getMainPlayer(matchData, playerData);
   const mainPlayerImg = mainPlayer.championId;
 
   const mainPlayerCS =
@@ -118,7 +122,7 @@ export const MatchHistoryItem = (props) => {
   let winStatus;
 
   if (mainPlayer.win) {
-    if (match.info.gameDuration < 300) {
+    if (matchData.info.gameDuration < 300) {
       winStatus = "Remake";
     } else {
       winStatus = "Victory";
@@ -128,7 +132,7 @@ export const MatchHistoryItem = (props) => {
   }
 
   const mainPlayerQueueName = () => {
-    const mainPlayerQueueId = match.info.queueId;
+    const mainPlayerQueueId = matchData.info.queueId;
     if (mainPlayerQueueId === 420) {
       return "Ranked Solo";
     } else if (mainPlayerQueueId === 700) {
@@ -149,15 +153,14 @@ export const MatchHistoryItem = (props) => {
   };
 
   const mainPlayerTeamId = mainPlayer.teamId;
-  const mainPlayerTeam = match.info.participants.filter(
+  const mainPlayerTeam = matchData.info.participants.filter(
     (participant) => participant.teamId === mainPlayerTeamId
   );
 
-  const mainPlayerKda =
-    (mainPlayer.kills + mainPlayer.assists) / mainPlayer.deaths;
+  const mainPlayerKda = mainPlayer.challenges.kda;
 
   const teamKda = mainPlayerTeam.map((participant) => {
-    const kda = (participant.kills + participant.assists) / participant.deaths;
+    const kda = participant.challenges.kda;
     return kda;
   });
 
@@ -173,13 +176,13 @@ export const MatchHistoryItem = (props) => {
             ? "#00c85336"
             : "#df26264c",
       }}
-      key={match.metadata.matchId}
+      key={matchData.metadata.matchId}
     >
       <MainCont>
         <TopText>{mainPlayerQueueName()}</TopText>
-        <BotText>{dateFormat(match.info.gameEndTimestamp)}</BotText>
+        <BotText>{dateFormat(matchData.info.gameEndTimestamp)}</BotText>
         <TopText>{winStatus}</TopText>
-        <BotText>{timeFormat(match.info.gameDuration)}</BotText>
+        <BotText>{timeFormat(matchData.info.gameDuration)}</BotText>
       </MainCont>
       <MainImg
         src={`https://cdn.communitydragon.org/latest/champion/${mainPlayerImg}/square`}
@@ -190,7 +193,7 @@ export const MatchHistoryItem = (props) => {
         {mainPlayerKda === maxTeamKda && <MVP>MVP</MVP>}
       </MainStatCont>
       <FirstHistCont>
-        {match.info.participants.slice(0, 5).map((player) => (
+        {matchData.info.participants.slice(0, 5).map((player) => (
           <React.Fragment key={player.summonerName}>
             <HistoryImg
               src={`https://cdn.communitydragon.org/latest/champion/${player.championId}/square`}
@@ -202,7 +205,7 @@ export const MatchHistoryItem = (props) => {
         ))}
       </FirstHistCont>
       <SecondHistCont>
-        {match.info.participants.slice(5).map((player) => (
+        {matchData.info.participants.slice(5).map((player) => (
           <React.Fragment key={player.summonerName}>
             <HistoryImg
               src={`https://cdn.communitydragon.org/latest/champion/${player.championId}/square`}

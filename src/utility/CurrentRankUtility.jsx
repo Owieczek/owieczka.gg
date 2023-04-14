@@ -10,14 +10,14 @@ import challenger from "../assets/rankChallenger.webp";
 import unranked from "../assets/unranked1.png";
 
 
-export const winRatio = (data) =>
-    data && ((data.wins / (data.wins + data.losses)) * 100).toFixed(0);
+export const winRatio = (rank) =>
+rank && ((rank.wins / (rank.wins + rank.losses)) * 100).toFixed(0);
 
-  export const rankIMG = (data) => {
-    if (!data) {
+  export const rankIMG = (rank) => {
+    if (!rank) {
       return unranked;
     }
-    switch (data.tier) {
+    switch (rank.tier) {
       case "IRON":
         return iron;
       case "BRONZE":
