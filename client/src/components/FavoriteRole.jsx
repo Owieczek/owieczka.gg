@@ -82,23 +82,12 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
     return data.teamPosition;
   });
 
-  const countedRoles = {};
-  let maxCount = 0;
-  let mostFrequentRole = "";
-
-  for (const role of roles) {
-    countedRoles[role] = (countedRoles[role] || 0) + 1;
-  }
-
-  const roleOrder = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
-
-  for (const role of roleOrder) {
-    const roleCount = countedRoles[role] || 0;
-    if (roleCount >= maxCount) {
-      maxCount = roleCount;
-      mostFrequentRole = role;
-    }
-  }
+  const mostFrequentRole = roles.reduce((prevRole, currRole) => {
+    const count = roles.filter((role) => role === prevRole).length;
+    return count < roles.filter((role) => role === currRole).length
+      ? currRole
+      : prevRole;
+  }, null);
 
   const wins = mainPlayer.reduce((totalWins, data) => {
     if (data.teamPosition === mostFrequentRole && data.win) {
@@ -115,7 +104,9 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
   }, 0);
 
   const winRatio =
-    wins + losses === 0 ? null : ((wins / (wins + losses)) * 100).toFixed(0);
+    mostFrequentRole && wins + losses !== 0
+      ? ((wins / (wins + losses)) * 100).toFixed(0)
+      : null;
 
   return (
     <FavoriteRoleCont>

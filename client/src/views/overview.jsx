@@ -9,6 +9,7 @@ import { SearchBar } from "../components/SearchBar";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getMatchesData, getPlayerData } from "../services/api";
+import { Spinner } from "../components/Styles/Spinner";
 
 const Cont = styled(Container)`
   display: grid;
@@ -55,6 +56,7 @@ export const OverviewView = () => {
   const { region, input } = useParams();
   const [playerData, setPlayerData] = useState();
   const [matchesData, setMatchesData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -67,29 +69,37 @@ export const OverviewView = () => {
         setMatchesData(matchesData);
       } catch (error) {
         setError(true);
+      } finally {
+        setLoading(true);
       }
     };
     fetchData();
   }, [region, input]);
 
   return (
-    <Cont>
-      {error ? (
-        <SearchBar error={true} />
+    <>
+      {loading ? (
+        <Spinner />
       ) : (
-        <>
-          <SearchBar error={false} />
-          <ProfileInfo playerData={playerData} />
-          <CurrentRank playerData={playerData} />
-          <FavoriteRole playerData={playerData} matchesData={matchesData} />
-          <ChampionStat playerData={playerData} matchesData={matchesData} />
-          <MatchHistory
-            playerData={playerData}
-            matchesData={matchesData}
-            region={region}
-          />
-        </>
+        <Cont>
+          {error ? (
+            <SearchBar error={true} />
+          ) : (
+            <>
+              <SearchBar error={false} />
+              <ProfileInfo playerData={playerData} />
+              <CurrentRank playerData={playerData} />
+              <FavoriteRole playerData={playerData} matchesData={matchesData} />
+              <ChampionStat playerData={playerData} matchesData={matchesData} />
+              <MatchHistory
+                playerData={playerData}
+                matchesData={matchesData}
+                region={region}
+              />
+            </>
+          )}
+        </Cont>
       )}
-    </Cont>
+    </>
   );
 };
