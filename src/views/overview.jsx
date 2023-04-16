@@ -61,15 +61,10 @@ export const OverviewView = () => {
     const fetchData = async () => {
       try {
         const playerData = await getPlayerData(region, input);
-        const matchesData = await getMatchesData(
-          playerData.matches.slice(0, 20)
-        );
-
+        const matchesData = await getMatchesData(playerData.matches);
         setError(false);
         setPlayerData(playerData);
         setMatchesData(matchesData);
-        console.log(playerData);
-        console.log(matchesData);
       } catch (error) {
         setError(true);
       }

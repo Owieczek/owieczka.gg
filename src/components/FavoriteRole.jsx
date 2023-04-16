@@ -72,15 +72,14 @@ const RoleWinratio = styled(Text)`
 `;
 
 export const FavoriteRole = ({ playerData, matchesData }) => {
-  const getMainPlayer = (matchData, playerData) => {
+  const mainPlayer = matchesData.map((matchData) => {
     return matchData.info.participants.find(
       (participant) => participant.puuid === playerData.puuid
     );
-  };
+  });
 
-  const roles = matchesData.map((matchData) => {
-    const mainPlayer = getMainPlayer(matchData, playerData);
-    return mainPlayer.teamPosition;
+  const roles = mainPlayer.map((data) => {
+    return data.teamPosition;
   });
 
   const countedRoles = {};
@@ -101,18 +100,17 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
     }
   }
 
-  const wins = matchesData.reduce((totalWins, matchData) => {
-    const mainPlayer = getMainPlayer(matchData, playerData);
-    if (mainPlayer.teamPosition === mostFrequentRole && mainPlayer.win) {
+  const wins = mainPlayer.reduce((totalWins, data) => {
+    if (data.teamPosition === mostFrequentRole && data.win) {
       return totalWins + 1;
     }
     return totalWins;
   }, 0);
 
-  const losses = matchesData.reduce((totalLosses, matchData) => {
-    const mainPlayer = getMainPlayer(matchData, playerData);
-    if (mainPlayer.teamPosition === mostFrequentRole && !mainPlayer.win) {
-      return totalLosses +1;
+
+  const losses = mainPlayer.reduce((totalLosses, data) => {
+    if (data.teamPosition === mostFrequentRole && !data.win) {
+      return totalLosses + 1;
     }
     return totalLosses;
   }, 0);
