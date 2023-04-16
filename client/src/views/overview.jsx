@@ -70,7 +70,7 @@ export const OverviewView = () => {
       } catch (error) {
         setError(true);
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
     fetchData();
