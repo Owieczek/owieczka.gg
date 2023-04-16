@@ -7,18 +7,18 @@ const app = express();
 const port = 4000;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const cache = new Map();
+// const cache = new Map();
 
 // get matches info
 app.get("/api/match/:id", async (req, res) => {
   const matchId = req.params.id;
 
   // check if result is in cache
-  if (cache.has(`/api/match/${matchId}`)) {
-    console.log("Getting result from cache...");
-    const cachedResult = cache.get(`/api/match/${matchId}`);
-    return res.send(cachedResult);
-  }
+  // if (cache.has(`/api/match/${matchId}`)) {
+  //   console.log("Getting result from cache...");
+  //   const cachedResult = cache.get(`/api/match/${matchId}`);
+  //   return res.send(cachedResult);
+  // }
 
   const response = await fetch(
     `https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
@@ -27,7 +27,7 @@ app.get("/api/match/:id", async (req, res) => {
   const data = await response.json();
 
   // add result to cache
-  cache.set(`/api/match/${matchId}`, data);
+  // cache.set(`/api/match/${matchId}`, data);
 
   res.send(data);
 });
