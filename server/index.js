@@ -7,7 +7,11 @@ const app = express();
 const port = 4000;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const cache = new Map();
+const NodeCache = require("node-cache");
+const cache = new NodeCache({ stdTTL: 120 });
+
+
+
 
 // get matches info
 app.get("/api/match/:id", async (req, res) => {
