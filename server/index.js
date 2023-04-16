@@ -12,7 +12,6 @@ const cache = new Map();
 // get matches info
 app.get("/api/match/:id", async (req, res) => {
   const matchId = req.params.id;
-  console.log(matchId);
 
   // check if result is in cache
   if (cache.has(`/api/match/${matchId}`)) {
@@ -26,7 +25,6 @@ app.get("/api/match/:id", async (req, res) => {
   );
 
   const data = await response.json();
-  console.log(data);
 
   // add result to cache
   cache.set(`/api/match/${matchId}`, data);
