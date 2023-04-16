@@ -7,11 +7,7 @@ const app = express();
 const port = 4000;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL: 120 });
-
-
-
+const cache = new Map();
 
 // get matches info
 app.get("/api/match/:id", async (req, res) => {
@@ -40,26 +36,16 @@ app.get("/api/match/:id", async (req, res) => {
 app.get("/api/:region/:input", async (req, res) => {
   const region = req.params.region;
   const input = req.params.input;
-
-  // check if result is in cache
-  if (cache.has(`/api/${region}/${input}`)) {
-    console.log("Getting result from cache...");
-    const cachedResult = cache.get(`/api/${region}/${input}`);
-    return res.send(cachedResult);
-  }
-
   const resPlayerData = await fetch(
     `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${input}?api_key=${API_KEY}`
   );
   const playerData = await resPlayerData.json();
 
   // get player rank
-
   const playerId = playerData.id;
   const resPlayerRank = await fetch(
     `https://${region}.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerId}?api_key=${API_KEY}`
   );
-
   const playerRankData = await resPlayerRank.json();
 
   // get list of matchesID
@@ -67,7 +53,6 @@ app.get("/api/:region/:input", async (req, res) => {
   const resListOfMatchesId = await fetch(
     `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${PUUID}/ids?api_key=${API_KEY}&count=10`
   );
-
   const lisOfMatchesIdData = await resListOfMatchesId.json();
 
   const result = {
@@ -75,9 +60,6 @@ app.get("/api/:region/:input", async (req, res) => {
     rank: playerRankData,
     matches: lisOfMatchesIdData,
   };
-
-  // add result to cache
-  cache.set(`/api/${region}/${input}`, result);
 
   res.send(result);
 });
