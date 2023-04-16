@@ -107,7 +107,6 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
     return totalWins;
   }, 0);
 
-
   const losses = mainPlayer.reduce((totalLosses, data) => {
     if (data.teamPosition === mostFrequentRole && !data.win) {
       return totalLosses + 1;
@@ -115,7 +114,8 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
     return totalLosses;
   }, 0);
 
-  const winRatio = ((wins / (wins + losses)) * 100).toFixed(0);
+  const winRatio =
+    wins + losses === 0 ? null : ((wins / (wins + losses)) * 100).toFixed(0);
 
   return (
     <FavoriteRoleCont>
@@ -126,7 +126,9 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
         <RoleImg src={roleImg(mostFrequentRole)} alt="" />
         <BotContText>
           <RoleName> {roleName(mostFrequentRole)}</RoleName>
-          <RoleWinratio>Win Ratio {winRatio}%</RoleWinratio>
+          <RoleWinratio>
+            {winRatio ? `Win Ratio ${winRatio}%` : null}
+          </RoleWinratio>
         </BotContText>
       </BotCont>
     </FavoriteRoleCont>

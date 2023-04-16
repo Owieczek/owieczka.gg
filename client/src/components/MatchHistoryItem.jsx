@@ -157,10 +157,10 @@ export const MatchHistoryItem = (props) => {
     (participant) => participant.teamId === mainPlayerTeamId
   );
 
-  const mainPlayerKda = mainPlayer.challenges.kda;
+  const mainPlayerKda = mainPlayer.challenges?.kda || null;
 
   const teamKda = mainPlayerTeam.map((participant) => {
-    const kda = participant.challenges.kda;
+    const kda = participant.challenges?.kda || null;
     return kda;
   });
 

@@ -52,8 +52,13 @@ export const SearchBar = ({ error }) => {
   const navigate = useNavigate();
 
   async function handleSubmit() {
+    const trimmedInput = input.trim();
+    if (!trimmedInput) {
+      error(true);
+      return;
+    }
     const regionWithLastE = region.endsWith("E") ? region.slice(0, -1) : region;
-    navigate("/" + regionWithLastE.toLowerCase() + "1" + "/" + input);
+    navigate("/" + regionWithLastE.toLowerCase() + "1" + "/" + trimmedInput);
     setInput("");
   }
 
@@ -67,12 +72,15 @@ export const SearchBar = ({ error }) => {
               type="text"
               placeholder="Search summoner..."
               value={input}
+              onBlur={(e) => setInput(e.target.value.trim())}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleSubmit(e);
                 }
               }}
+              required
+              pattern="\S(.*\S)?"
             />
           </Text>
           <Text>
