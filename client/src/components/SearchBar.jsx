@@ -51,7 +51,8 @@ export const SearchBar = ({ error }) => {
   const [region, setRegion] = useState(regions[0]);
   const navigate = useNavigate();
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
     const trimmedInput = input.trim();
     if (!trimmedInput) {
       error(true);
@@ -72,7 +73,6 @@ export const SearchBar = ({ error }) => {
               type="text"
               placeholder="Search summoner..."
               value={input}
-              onBlur={(e) => setInput(e.target.value.trim())}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
