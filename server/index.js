@@ -51,7 +51,7 @@ app.get("/api/:region/:input", async (req, res) => {
   // get list of matchesID
   const PUUID = playerData.puuid;
   const resListOfMatchesId = await fetch(
-    `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${PUUID}/ids?api_key=${API_KEY}&count=10`
+    `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${PUUID}/ids?api_key=${API_KEY}&count=15`
   );
   const lisOfMatchesIdData = await resListOfMatchesId.json();
 
