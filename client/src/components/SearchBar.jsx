@@ -51,22 +51,19 @@ export const SearchBar = ({ error }) => {
   const [region, setRegion] = useState(regions[0]);
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const trimmedInput = input.trim();
-    if (!trimmedInput) {
-      error(true);
-      return;
+  const handleSubmit = (e) => {
+    if (input.trim().length === 0) {
+      return error;
     }
-    const regionWithLastE = region.endsWith("E") ? region.slice(0, -1) : region;
-    navigate("/" + regionWithLastE.toLowerCase() + "1" + "/" + trimmedInput);
+    e.preventDefault();
+    navigate("/" + (region === "EUNE" ? "eun1" : "euw1") + "/" + input);
     setInput("");
-  }
+  };
 
   return (
     <div style={{ gridArea: "search" }}>
       <SearchCont>
-        <SearchForm>
+        <SearchForm onSubmit={handleSubmit}>
           <SearchIcon src={search2} />
           <Text>
             <InputSearch
@@ -74,16 +71,6 @@ export const SearchBar = ({ error }) => {
               placeholder="Search summoner..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSubmit(e);
-                }
-              }}
-              onInvalid={(e) => {
-                e.preventDefault();
-              }}
-              required
-              pattern="\S(.*\S)?"
             />
           </Text>
           <Text>
