@@ -79,6 +79,9 @@ export const SearchBar = ({ error }) => {
                   handleSubmit(e);
                 }
               }}
+              onInvalid={(e) => {
+                e.preventDefault();
+              }}
               required
               pattern="\S(.*\S)?"
             />
