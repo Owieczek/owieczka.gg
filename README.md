@@ -49,7 +49,7 @@ valuable content.
    ```sh
    npm start
    ```
-8. Visit localhost:4000
+8. Visit localhost:yourport
 
 ## Usage
 
