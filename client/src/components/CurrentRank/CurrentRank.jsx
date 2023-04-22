@@ -34,6 +34,7 @@ const Tier = styled.div`
   width: 50%;
   display: flex;
   flex-direction: column;
+  min-width: 190px;
 
   @media screen and (max-width: 425px) {
     margin-left: 10px;
@@ -42,6 +43,8 @@ const Tier = styled.div`
 
 const Img = styled.img`
   width: 35%;
+  min-height: 161px;
+  min-width: 161px;
 `;
 
 const Title = styled(Text)`
@@ -55,7 +58,7 @@ const Title = styled(Text)`
     margin: 10px 0 0 10px;
   }
   @media screen and (max-width: 1190px) {
-    font-size: 20px;
+    font-size: 25px;
     margin: 10px 0 0 10px;
   }
 `;
@@ -75,7 +78,7 @@ const Select = styled.select`
   }
 
   @media screen and (max-width: 1190px) {
-    font-size: 20px;
+    font-size: 25px;
     margin: 10px 10px 0 0;
   }
 `;
@@ -91,7 +94,7 @@ const Name = styled(Text)`
   font-size: 28px;
 
   @media screen and (max-width: 1190px) {
-    font-size: 21px;
+    font-size: 25px;
   }
 `;
 
@@ -115,7 +118,7 @@ export const CurrentRank = ({ playerData }) => {
   const rankedFlexData =
     playerData &&
     playerData.rank.find((rank) => rank.queueType === "RANKED_FLEX_SR");
-    
+
   const selectedData =
     selectedOption === "Ranked Flex" ? rankedFlexData : rankedSoloData;
 
