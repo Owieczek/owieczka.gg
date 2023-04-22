@@ -1,6 +1,6 @@
 # About The Project
 
-<img src="\client\src\assets\owcatacker.jpg" alt="owca tracker view">
+<img src=".\client\src\assets\owcatacker.jpg" alt="owca tracker view">
 
 League tracker provides insight to League of Legends players about thier game performance, match history, and ranked ladder via Riot API.
 
