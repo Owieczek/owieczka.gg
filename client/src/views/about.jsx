@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Text } from "../components/Styles/Text";
+import { Text } from "../components/Core/Text";
 
 const Cont = styled.div`
   border: solid 1px #00000019;
@@ -48,7 +48,7 @@ export const AboutView = () => {
         <Title>League of Legends Tracker</Title>
         <SubTitle>
           Tool designed for players who want to track their progress in the game
-          and improve their skills. With our app, you can monitor your stats,
+          and improve their skills. With my app, you can monitor your stats,
           analyze your matches, and receive valuable tips to enhance your
           gameplay.
         </SubTitle>

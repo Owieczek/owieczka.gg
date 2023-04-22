@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Text } from "./Styles/Text";
+import { Text } from "../Core/Text";
 
-const ProfileCont = styled.div`
+const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #00000019;
   text-align: center;
@@ -11,14 +11,14 @@ const ProfileCont = styled.div`
   max-width: 350px;
 `;
 
-const ProfileImg = styled.img`
+const Img = styled.img`
   max-width: 100px;
   border-radius: 50%;
   border: solid 4px #000000c7;
   margin: 20px 30px 0px 30px;
 `;
 
-const ProfileName = styled(Text)`
+const Name = styled(Text)`
   font-weight: 600;
   color: #000000c7;
   font-size: 20px;
@@ -27,30 +27,34 @@ const ProfileName = styled(Text)`
   padding-right: 10px;
 `;
 
-const ProfileRanking = styled(Text)`
+const Ranking = styled(Text)`
   font-size: 14px;
   font-weight: 600;
   color: #0000009a;
 `;
 
+const Content = styled.div`
+  margin-bottom: 10px;
+`;
+
 export const ProfileInfo = ({ playerData }) => {
   return (
-    <ProfileCont>
+    <Container>
       {playerData && (
         <>
-          <ProfileImg
+          <Img
             src={
               "http://ddragon.leagueoflegends.com/cdn/13.6.1/img/profileicon/" +
               playerData.profileIconId +
               ".png"
             }
           />
-          <div style={{ marginBottom: "10px" }}>
-            <ProfileName>{playerData.name}</ProfileName>
-            <ProfileRanking>Level: {playerData.summonerLevel}</ProfileRanking>
-          </div>
+          <Content>
+            <Name>{playerData.name}</Name>
+            <Ranking>Level: {playerData.summonerLevel}</Ranking>
+          </Content>
         </>
       )}
-    </ProfileCont>
+    </Container>
   );
 };

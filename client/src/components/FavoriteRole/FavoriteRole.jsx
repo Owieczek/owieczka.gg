@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { Text } from "./Styles/Text";
-import { roleImg, roleName } from "../utility/favoriteRoleUtility";
+import { Text } from "../Core/Text";
+import { getMostFrequentRole, roleImg, roleName } from "./favoriteRoleUtility";
+import { getMainPlayer } from "../../helpers/helpers";
 
-const FavoriteRoleCont = styled.div`
+const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #00000019;
   grid-area: third;
@@ -10,13 +11,13 @@ const FavoriteRoleCont = styled.div`
   min-width: 350px;
 `;
 
-const TopCont = styled.div`
+const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const BotCont = styled.div`
+const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +29,7 @@ const BotCont = styled.div`
   }
 `;
 
-const BotContText = styled.div`
+const Content = styled.div`
   margin-left: 20px;
   width: 40%;
   display: flex;
@@ -39,11 +40,11 @@ const BotContText = styled.div`
   }
 `;
 
-const RoleImg = styled.img`
+const Img = styled.img`
   width: 45%;
 `;
 
-const RankTitle = styled(Text)`
+const Title = styled(Text)`
   font-weight: 600;
   color: #000000c7;
   font-size: 24px;
@@ -55,7 +56,7 @@ const RankTitle = styled(Text)`
   }
 `;
 
-const RoleName = styled(Text)`
+const Name = styled(Text)`
   font-weight: 600;
   color: #000000c7;
   font-size: 30px;
@@ -66,28 +67,19 @@ const RoleName = styled(Text)`
   }
 `;
 
-const RoleWinratio = styled(Text)`
+const Winratio = styled(Text)`
   font-size: 16px;
   color: #000000c7;
 `;
 
 export const FavoriteRole = ({ playerData, matchesData }) => {
-  const mainPlayer = matchesData.map((matchData) => {
-    return matchData.info.participants.find(
-      (participant) => participant.puuid === playerData.puuid
-    );
-  });
+  const mainPlayer = getMainPlayer(matchesData, playerData);
 
   const roles = mainPlayer.map((data) => {
     return data.teamPosition;
   });
 
-  const mostFrequentRole = roles.reduce((prevRole, currRole) => {
-    const count = roles.filter((role) => role === prevRole).length;
-    return count < roles.filter((role) => role === currRole).length
-      ? currRole
-      : prevRole;
-  }, null);
+  const mostFrequentRole = getMostFrequentRole(roles);
 
   const wins = mainPlayer.reduce((totalWins, data) => {
     if (data.teamPosition === mostFrequentRole && data.win) {
@@ -109,19 +101,17 @@ export const FavoriteRole = ({ playerData, matchesData }) => {
       : null;
 
   return (
-    <FavoriteRoleCont>
-      <TopCont>
-        <RankTitle>Favourite role</RankTitle>
-      </TopCont>
-      <BotCont>
-        <RoleImg src={roleImg(mostFrequentRole)} alt="" />
-        <BotContText>
-          <RoleName> {roleName(mostFrequentRole)}</RoleName>
-          <RoleWinratio>
-            {winRatio ? `Win Ratio ${winRatio}%` : null}
-          </RoleWinratio>
-        </BotContText>
-      </BotCont>
-    </FavoriteRoleCont>
+    <Container>
+      <Top>
+        <Title>Favourite role</Title>
+      </Top>
+      <Bottom>
+        <Img src={roleImg(mostFrequentRole)} alt="" />
+        <Content>
+          <Name> {roleName(mostFrequentRole)}</Name>
+          <Winratio>{winRatio ? `Win Ratio ${winRatio}%` : null}</Winratio>
+        </Content>
+      </Bottom>
+    </Container>
   );
 };

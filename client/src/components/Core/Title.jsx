@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Text } from "./Text";
 
-export const PageTitle = styled(Text)(({ variant, colorVariant }) => ({
+export const Title = styled(Text)(({ variant, colorVariant }) => ({
   fontSize: "100px",
   lineHeight: 1.1,
   letterSpacing: "-0.05em",

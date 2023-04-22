@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import owcalogo from "../../assets/owcalogo.png";
 import github from "../../assets/github.png";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { Text } from "./Text";
 
-const AppBarCont = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
   border: solid 1px #00000019;
@@ -14,38 +14,41 @@ const AppBarCont = styled.div`
   min-width: 380px;
 `;
 
-const FirstDiv = styled.div`
+const Navigation = styled.div`
   display: flex;
   align-items: center;
   margin-left: 50px;
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 650px) {
     margin-left: 10px;
   }
 `;
 
-const StyledLink = styled(Link)`
+const Link = styled(RouterLink)`
+  display: flex;
+  align-items: center;
   text-decoration: none;
 `;
 
-const Logo = styled.img`
+const SheepLogo = styled.img`
   height: 40px;
   width: auto;
   border-radius: 50%;
 `;
-const GitLogo = styled.img`
+const GitHubLogo = styled.img`
   height: 40px;
   width: auto;
   border-radius: 50%;
   margin-right: 50px;
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 650px) {
     margin-right: 10px;
+    margin-left: 30px;
   }
 `;
 
 const Banner = styled(Text)`
   font-size: 18px;
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 650px) {
     display: none;
   }
 `;
@@ -63,25 +66,24 @@ const Home = styled(Text)`
 
 export const AppBar = () => {
   return (
-    <AppBarCont>
-      <FirstDiv>
-        <Logo src={owcalogo} alt="logo" />
+    <Container>
+      <Navigation>
+        <SheepLogo src={owcalogo} alt="logo" />
         <Banner>@owcatracker</Banner>
-        <StyledLink to="/">
+        <Link to="/">
           <Home>Home</Home>
-        </StyledLink>
-        <StyledLink to="/about">
+        </Link>
+        <Link to="/about">
           <Home>About</Home>
-        </StyledLink>
-      </FirstDiv>
-      <a
-        href="https://github.com/Owieczek/owieczka.gg"
+        </Link>
+      </Navigation>
+      <Link
+        to="https://github.com/Owieczek/owieczka.gg"
         target="_blank"
         rel="noreferrer"
-        style={{ alignItems: "center", display: "flex" }}
       >
-        <GitLogo src={github} alt="githublogo" />
-      </a>
-    </AppBarCont>
+        <GitHubLogo src={github} alt="githublogo" />
+      </Link>
+    </Container>
   );
 };

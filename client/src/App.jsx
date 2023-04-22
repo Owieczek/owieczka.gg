@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { routes } from "./config/routes";
 import { HomeView } from "./views/home";
 import { OverviewView } from "./views/overview";
-import { AppBar } from "./components/Styles/AppBar";
+import { AppBar } from "./components/Core/AppBar";
 import { AboutView } from "./views/about";
 
 export const App = () => {

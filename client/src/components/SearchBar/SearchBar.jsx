@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { Text } from "./Styles/Text";
-import search2 from "../assets/search2.png";
+import search2 from "../../assets/search2.png";
+import { Text } from "../Core/Text";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SearchCont = styled.div`
+const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #00000019;
   max-width: 400px;
@@ -19,12 +19,12 @@ const SearchIcon = styled.img`
   height: auto;
 `;
 
-const SearchForm = styled.form`
+const Search = styled.form`
   display: flex;
   align-items: center;
 `;
 
-const InputSearch = styled.input`
+const Input = styled.input`
   text-decoration: none;
   border: none;
   outline: none;
@@ -32,7 +32,7 @@ const InputSearch = styled.input`
   width: 300px;
   height: 30px;
 `;
-const SearchSelect = styled.select`
+const Select = styled.select`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,6 +43,12 @@ const SearchSelect = styled.select`
   font-weight: 600;
   font-size: 14px;
   height: 40px;
+`;
+
+const ErrorMsg = styled(Text)`
+  color: red;
+  font-size: 16px;
+  margin-left: 50px;
 `;
 const regions = ["EUNE", "EUW"];
 
@@ -62,11 +68,11 @@ export const SearchBar = ({ error }) => {
 
   return (
     <div style={{ gridArea: "search" }}>
-      <SearchCont>
-        <SearchForm onSubmit={handleSubmit}>
+      <Container>
+        <Search onSubmit={handleSubmit}>
           <SearchIcon src={search2} />
           <Text>
-            <InputSearch
+            <Input
               type="text"
               placeholder="Search summoner..."
               value={input}
@@ -74,30 +80,17 @@ export const SearchBar = ({ error }) => {
             />
           </Text>
           <Text>
-            <SearchSelect
-              onChange={(e) => setRegion(e.target.value)}
-              value={region}
-            >
+            <Select onChange={(e) => setRegion(e.target.value)} value={region}>
               {regions.map((e) => (
                 <option key={e} value={e}>
                   {e}
                 </option>
               ))}
-            </SearchSelect>
+            </Select>
           </Text>
-        </SearchForm>
-      </SearchCont>
-      {error && (
-        <Text
-          style={{
-            color: "red",
-            fontSize: "16px",
-            marginLeft: "50px",
-          }}
-        >
-          Invalid summoner name or region.
-        </Text>
-      )}
+        </Search>
+      </Container>
+      {error && <ErrorMsg>Invalid summoner name or region.</ErrorMsg>}
     </div>
   );
 };

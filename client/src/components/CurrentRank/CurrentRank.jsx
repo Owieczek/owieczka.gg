@@ -1,23 +1,24 @@
 import { useState } from "react";
 import styled from "styled-components";
-import unranked from "../assets/unranked1.png";
-import { Text } from "./Styles/Text";
-import { rankIMG, winRatio } from "../utility/CurrentRankUtility";
+import unranked from "../../assets/unranked1.png";
+import { Text } from "../Core/Text";
+import { rankIMG, winRatio } from "./CurrentRankUtility";
 
-const CurrentRankCont = styled.div`
+const Container = styled.div`
   border-radius: 20px;
   border: solid 1px #00000019;
   grid-area: second;
   max-width: 460px;
+  min-width: 380px;
 `;
 
-const TopCont = styled.div`
+const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const BotCont = styled.div`
+const Bottom = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +29,7 @@ const BotCont = styled.div`
   }
 `;
 
-const BotContText = styled.div`
+const Tier = styled.div`
   padding-left: 30px;
   width: 50%;
   display: flex;
@@ -39,11 +40,11 @@ const BotContText = styled.div`
   }
 `;
 
-const RankImg = styled.img`
+const Img = styled.img`
   width: 35%;
 `;
 
-const RankTitle = styled(Text)`
+const Title = styled(Text)`
   font-weight: 600;
   color: #000000c7;
   font-size: 24px;
@@ -53,7 +54,7 @@ const RankTitle = styled(Text)`
     font-size: 16px;
     margin: 10px 0 0 10px;
   }
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1190px) {
     font-size: 20px;
     margin: 10px 0 0 10px;
   }
@@ -73,7 +74,7 @@ const Select = styled.select`
     margin: 10px 10px 0 0;
   }
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1190px) {
     font-size: 20px;
     margin: 10px 10px 0 0;
   }
@@ -84,20 +85,24 @@ const Option = styled.option`
   font-size: 14px;
 `;
 
-const RankName = styled(Text)`
+const Name = styled(Text)`
   font-weight: 600;
   color: #000000c7;
   font-size: 28px;
 
-  @media screen and (max-width: 1170px) {
-    font-size: 23px;
+  @media screen and (max-width: 1190px) {
+    font-size: 21px;
   }
 `;
 
-const RankKD = styled(Text)`
+const KD = styled(Text)`
   font-size: 16px;
   color: #000000c7;
   display: inline-block;
+
+  @media screen and (max-width: 1190px) {
+    font-size: 15px;
+  }
 `;
 
 export const CurrentRank = ({ playerData }) => {
@@ -106,20 +111,20 @@ export const CurrentRank = ({ playerData }) => {
   const rankedSoloData =
     playerData &&
     playerData.rank.find((rank) => rank.queueType === "RANKED_SOLO_5x5");
+
   const rankedFlexData =
     playerData &&
     playerData.rank.find((rank) => rank.queueType === "RANKED_FLEX_SR");
-
+    
   const selectedData =
     selectedOption === "Ranked Flex" ? rankedFlexData : rankedSoloData;
 
- 
   return (
-    <CurrentRankCont>
+    <Container>
       {playerData && selectedData ? (
         <>
-          <TopCont>
-            <RankTitle>Current Rank</RankTitle>
+          <Top>
+            <Title>Current Rank</Title>
             <Text>
               <Select
                 value={selectedOption}
@@ -129,23 +134,23 @@ export const CurrentRank = ({ playerData }) => {
                 <Option value="Ranked Flex">Ranked Flex</Option>
               </Select>
             </Text>
-          </TopCont>
-          <BotCont>
-            <RankImg src={rankIMG(selectedData)} alt="" />
-            <BotContText>
-              <RankName>{`${selectedData.tier} ${selectedData.rank}`}</RankName>
-              <RankKD>
+          </Top>
+          <Bottom>
+            <Img src={rankIMG(selectedData)} alt="" />
+            <Tier>
+              <Name>{`${selectedData.tier} ${selectedData.rank}`}</Name>
+              <KD>
                 {`${selectedData.wins}W ${selectedData.losses}L (${winRatio(
                   selectedData
                 )}%) ${selectedData.leaguePoints} LP`}
-              </RankKD>
-            </BotContText>
-          </BotCont>
+              </KD>
+            </Tier>
+          </Bottom>
         </>
       ) : (
         <>
-          <TopCont>
-            <RankTitle>Current Rank</RankTitle>
+          <Top>
+            <Title>Current Rank</Title>
             <Text>
               <Select
                 value={selectedOption}
@@ -155,16 +160,16 @@ export const CurrentRank = ({ playerData }) => {
                 <Option>Ranked Solo</Option>
               </Select>
             </Text>
-          </TopCont>
-          <BotCont>
-            <RankImg src={unranked} alt="" />
-            <BotContText>
-              <RankName>Unranked</RankName>
-              <RankKD>0W 0L 0%</RankKD>
-            </BotContText>
-          </BotCont>
+          </Top>
+          <Bottom>
+            <Img src={unranked} alt="" />
+            <Tier>
+              <Name>Unranked</Name>
+              <KD>0W 0L 0%</KD>
+            </Tier>
+          </Bottom>
         </>
       )}
-    </CurrentRankCont>
+    </Container>
   );
 };

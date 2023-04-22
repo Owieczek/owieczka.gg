@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import { Container } from "../components/Styles/Container";
-import { ProfileInfo } from "../components/ProfileInfo";
-import { CurrentRank } from "../components/CurrentRank";
-import { FavoriteRole } from "../components/FavoriteRole";
-import { ChampionStat } from "../components/ChampionStat";
-import { MatchHistory } from "../components/MatchHistory";
-import { SearchBar } from "../components/SearchBar";
+import { Container } from "../components/Core/Container";
+import { ChampionStat } from "../components/ChampionStats/ChampionStat";
+import { MatchHistory } from "../components/MatchHistory/MatchHistory";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getMatchesData, getPlayerData } from "../services/api";
-import { Spinner } from "../components/Styles/Spinner";
+import { Spinner } from "../components/Core/Spinner";
+import { CurrentRank } from "../components/CurrentRank/CurrentRank";
+import { FavoriteRole } from "../components/FavoriteRole/FavoriteRole";
+import { SearchBar } from "../components/SearchBar/SearchBar";
+import { ProfileInfo } from "../components/ProfileInfo/ProfileInfo";
 
 const Cont = styled(Container)`
   display: grid;

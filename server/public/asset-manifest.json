@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e5bb1877.css",
-    "main.js": "/static/js/main.1d8322ec.js",
+    "main.css": "/static/css/main.3b4586f4.css",
+    "main.js": "/static/js/main.5716b273.js",
     "static/media/owcalogo.png": "/static/media/owcalogo.9129d498e51880114bdd.png",
     "static/media/rankChallenger.webp": "/static/media/rankChallenger.7526ef78e26d795d0197.webp",
     "static/media/rankGrandmaster.webp": "/static/media/rankGrandmaster.483cd413d2873dc9ba9b.webp",
@@ -30,11 +30,11 @@
     "static/media/inter-vietnamese-800-normal.woff2": "/static/media/inter-vietnamese-800-normal.370d211a5c59fde04bfa.woff2",
     "static/media/inter-vietnamese-400-normal.woff2": "/static/media/inter-vietnamese-400-normal.789afb71d327988e2fc8.woff2",
     "index.html": "/index.html",
-    "main.e5bb1877.css.map": "/static/css/main.e5bb1877.css.map",
-    "main.1d8322ec.js.map": "/static/js/main.1d8322ec.js.map"
+    "main.3b4586f4.css.map": "/static/css/main.3b4586f4.css.map",
+    "main.5716b273.js.map": "/static/js/main.5716b273.js.map"
   },
   "entrypoints": [
-    "static/css/main.e5bb1877.css",
-    "static/js/main.1d8322ec.js"
+    "static/css/main.3b4586f4.css",
+    "static/js/main.5716b273.js"
   ]
 }
