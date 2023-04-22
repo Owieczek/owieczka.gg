@@ -17,7 +17,7 @@ valuable content.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/arnoldkokot/tracker.git
+   git clone https://github.com/Owieczek/owieczka.gg
    ```
 2. Install backend NPM packages
    ```sh
