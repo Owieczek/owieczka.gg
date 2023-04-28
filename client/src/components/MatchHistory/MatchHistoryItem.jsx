@@ -1,16 +1,8 @@
 import styled from "styled-components";
-import { Text } from "../../Core/Text";
-import {
-  dateFormat,
-  timeFormat,
-} from "../../../helpers/helpers";
-import {
-  determineWinStatus,
-  getMainPlayer,
-  queueNames,
-} from "../MatchHistoryUtility";
-import { FirstTeam } from "./Teams/FirstTeam";
-import { SecondTeam } from "./Teams/SecondTeam";
+import { Text } from "../Core/Text";
+import { dateFormat, timeFormat } from "../../helpers/helpers";
+import { determineWinStatus, getMainPlayer, queueNames } from "./utils";
+import { MatchHistoryTeam } from "./MatchHistoryTeam";
 
 const Container = styled.div`
   display: grid;
@@ -163,7 +155,7 @@ export const MatchHistoryItem = (props) => {
 
       <FirstTeamCont>
         {matchData.info.participants.slice(0, 5).map((player) => (
-          <FirstTeam
+          <MatchHistoryTeam
             player={player}
             region={region}
             key={player.summonerName}
@@ -173,7 +165,7 @@ export const MatchHistoryItem = (props) => {
 
       <SecondTeamCont>
         {matchData.info.participants.slice(5).map((player) => (
-          <SecondTeam
+          <MatchHistoryTeam
             player={player}
             region={region}
             key={player.summonerName}

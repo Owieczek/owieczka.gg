@@ -1,5 +1,5 @@
 export const routes = {
-    homepage: "/",
-    overview: "/:region/:input",
-    about: "/about"
-  };
+  homepage: "/",
+  overview: "/:region/:input",
+  about: "/about",
+};

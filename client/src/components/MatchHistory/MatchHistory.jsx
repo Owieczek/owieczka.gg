@@ -1,6 +1,6 @@
 import React from "react";
 
-import { MatchHistoryItem } from "./MatchHistoryItem/MatchHistoryItem";
+import { MatchHistoryItem } from "./MatchHistoryItem";
 
 export const MatchHistory = ({ playerData, matchesData, region }) => {
   return (

@@ -1,3 +1,3 @@
 export const theme = {
-    font: "Inter, sans-serif",
-  };
+  font: "Inter, sans-serif",
+};

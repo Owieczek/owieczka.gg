@@ -54,14 +54,18 @@ const regions = ["EUNE", "EUW"];
 
 export const SearchBar = ({ error }) => {
   const [input, setInput] = useState("");
+  const [inputError, setInputError] = useState(false);
   const [region, setRegion] = useState(regions[0]);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    if (input.trim().length === 0) {
-      return error;
-    }
     e.preventDefault();
+
+    if (input.trim().length === 0) {
+      setInputError(true);
+      return;
+    }
+
     navigate("/" + (region === "EUNE" ? "eun1" : "euw1") + "/" + input);
     setInput("");
   };
@@ -76,7 +80,10 @@ export const SearchBar = ({ error }) => {
               type="text"
               placeholder="Search summoner..."
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                setInputError(false);
+                setInput(e.target.value);
+              }}
             />
           </Text>
           <Text>
@@ -90,7 +97,8 @@ export const SearchBar = ({ error }) => {
           </Text>
         </Search>
       </Container>
-      {error && <ErrorMsg>Invalid summoner name or region.</ErrorMsg>}
+      {inputError && <ErrorMsg>Invalid summoner name</ErrorMsg>}
+      {error && <ErrorMsg>Summoner does not exist</ErrorMsg>}
     </div>
   );
 };
