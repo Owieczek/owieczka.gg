@@ -10,10 +10,10 @@ import "normalize.css";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <App />
-    </ThemeProvider>
-  </StrictMode>
+  // <StrictMode>
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <App />
+  </ThemeProvider>
+  // </StrictMode>
 );
