@@ -15,17 +15,13 @@ export const queueNames = {
 };
 
 export const determineWinStatus = (mainPlayer, matchData) => {
-  let result;
-
-  if (mainPlayer.win) {
-    if (matchData.info.gameDuration < 300) {
-        result = "Remake";
-    } else {
-        result = "Victory";
-    }
-  } else {
-    result = "Defeat";
+  if (!mainPlayer.win) {
+    return "Defeat";
   }
 
-  return result;
+  if (matchData.info.gameDuration < 300) {
+    return "Remake";
+  }
+
+  return "Victory";
 };

@@ -13,8 +13,12 @@ const images = {
   UTILITY: posUtility,
 };
 
+"" || "asd" -> "asd"
+"" ?? "asd" -> ""
+
+
 export const roleImg = (mostFrequentRole) => {
-  return images[mostFrequentRole] || unranked;
+  return images[mostFrequentRole] ?? unranked;
 };
 
 const name = {

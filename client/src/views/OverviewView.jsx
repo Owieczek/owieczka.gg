@@ -54,19 +54,27 @@ const Cont = styled(Container)`
 
 export const OverviewView = () => {
   const { region, input } = useParams();
-  const [playerData, setPlayerData] = useState();
-  const [matchesData, setMatchesData] = useState([]);
+
+  const [data, setData] = useState({
+    player: null,
+    matches: [],
+  });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const playerData = await getPlayerData(region, input);
-        const matchesData = await getMatchesData(playerData.matches);
+        const player = await getPlayerData(region, input);
+
+        const matches = await getMatchesData(player.matches);
         setError(false);
-        setPlayerData(playerData);
-        setMatchesData(matchesData);
+
+        setData({
+          player,
+          matches,
+        });
       } catch (error) {
         setError(true);
       } finally {
@@ -76,30 +84,29 @@ export const OverviewView = () => {
     fetchData();
   }, [region, input]);
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Cont>
-          {error ? (
-            <SearchBar error={true} />
-          ) : (
-            <>
-              <SearchBar error={false} />
-              <ProfileInfo playerData={playerData} />
-              <CurrentRank playerData={playerData} />
-              <FavoriteRole playerData={playerData} matchesData={matchesData} />
-              <ChampionStat playerData={playerData} matchesData={matchesData} />
-              <MatchHistory
-                playerData={playerData}
-                matchesData={matchesData}
-                region={region}
-              />
-            </>
-          )}
-        </Cont>
+    <Cont>
+      <SearchBar error={error} />
+
+      {!error && (
+        <>
+          <SearchBar error={false} />
+
+          <ProfileInfo playerData={data.player} />
+          <CurrentRank playerData={data.player} />
+          <FavoriteRole playerData={data.player} matchesData={data.matches} />
+          <ChampionStat playerData={data.player} matchesData={data.matches} />
+          <MatchHistory
+            playerData={data.player}
+            matchesData={data.matches}
+            region={region}
+          />
+        </>
       )}
-    </>
+    </Cont>
   );
 };
