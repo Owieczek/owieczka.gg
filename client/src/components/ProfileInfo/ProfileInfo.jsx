@@ -37,22 +37,24 @@ const Content = styled.div`
   margin-bottom: 10px;
 `;
 
-export const ProfileInfo = ({ playerData }) => (
-  <Container>
-    {playerData && (
-      <>
-        <Img
-          src={
-            "http://ddragon.leagueoflegends.com/cdn/13.6.1/img/profileicon/" +
-            playerData.profileIconId +
-            ".png"
-          }
-        />
-        <Content>
-          <Name>{playerData.name}</Name>
-          <Ranking>Level: {playerData.summonerLevel}</Ranking>
-        </Content>
-      </>
-    )}
-  </Container>
-);
+export const ProfileInfo = ({ playerData }) => {
+  return (
+    <Container>
+      {playerData && (
+        <>
+          <Img
+            src={
+              "http://ddragon.leagueoflegends.com/cdn/13.6.1/img/profileicon/" +
+              playerData.profileIconId +
+              ".png"
+            }
+          />
+          <Content>
+            <Name>{playerData.name}</Name>
+            <Ranking>Level: {playerData.summonerLevel}</Ranking>
+          </Content>
+        </>
+      )}
+    </Container>
+  );
+};
