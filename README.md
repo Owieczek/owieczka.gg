@@ -26,32 +26,21 @@ valuable content.
    ```
 3. Fill variables in .env file
    ```sh
-   mv .env.template .env
-   nano .env
-   ```
-4. Example variables
-
-   ```sh
    REACT_APP_API_KEY=*riot api key*
-
    ```
-
-5. Run api
+4. Run api
    ```sh
    npm run dev
    ```
-6. Install frontend NPM packages
+5. Install frontend NPM packages
    ```sh
    cd client
    npm install
    ```
-7. Run project
+6. Run project
    ```sh
    npm start
    ```
-8. Visit localhost:yourport
-
-## Usage
 
 ### Endpoints
 
